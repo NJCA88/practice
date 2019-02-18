@@ -1,5 +1,5 @@
-// // import * as math from 'mathjs'
-// const math = require('mathjs');
+// import * as math from 'mathjs'
+const math = require('mathjs');
 
 // console.log("starting")
 // // console.log(5+5)
@@ -255,8 +255,230 @@ var longestPalindrome = function (s) {
 
 
 
-console.log(longestPalindrome("bbabc"))
+// console.log(longestPalindrome("bbabc"))
 
 
 // console.log(checkPal("carat"))
 
+var maxArea = function (height) {
+    let max = 0;
+    // pointers are tuples with the heigh, and the index they're on
+    let s = [height[0], 0];
+    let e = [height[height.length - 1], height.length - 1];
+    for (let i = 0; i <= height.length; i++) {
+        console.log("new loop through the for")
+        let lower = s
+        if (s[0] > e[0]) lower = e
+        let area = getArea(s, e);
+        console.log("s e are: ", s, e);
+        // console.log("area is: ", area);
+        // console.log("max is: ", max);
+        if (area > max) max = area;
+        console.log("lower is: ", lower)
+        if (lower === s) {
+            lower[1] += 1
+            lower[0] = height[lower[1]]
+        } else {
+            console.log("LOWER HERE ", lower)
+            lower[1] = lower[1] - 1
+            console.log("LOWER NOW ", lower)
+
+            lower[0] = height[lower[1]]
+        }
+    }
+    return max
+}
+
+const getArea = function (s, e) {
+    let lower = s[0];
+    console.log(s, e)
+    if (s[0] > e[0]) lower = e[0]
+    // console.log("lower is: ", lower)
+    // console.log("resulting in: ", lower * (e[1] - s[1]))
+    return lower * (e[1] - s[1])
+}
+
+// console.log(maxArea([2, 3, 4, 5, 18, 17, 6]))
+
+
+const checkMedConditions = function(L1, L2, r1, r2){
+    console.log("vals in the checker b4 infi L1, L2, r1, r2: ", L1, L2, r1, r2)
+
+    console.log("vals in the checker L1, L2, r1, r2: ", L1, L2, r1, r2)
+    if (L1 <= r2 && L2 <= r1  ) {
+        console.log("returning true")
+        return true
+    }
+    if (L1 > r2) {
+        console.log("go left")
+        return "goLeft"
+    }
+    if (L2 > r1){
+        console.log("go right:", L1, L2, r1, r2)
+        return "goRight"
+    }
+    console.log("Ruh Roh")
+}
+const medianOfTwoArray = function(arr1, arr2){
+    //this is a fuction to get the median of 2 sorted arrays
+    let smallArr, bigArr
+    if (arr1.length < arr2.length){
+        smallArr = arr1;
+         bigArr = arr2;
+        } else{
+            smallArr = arr2;
+            bigArr = arr1
+        }
+    //start the b search here
+    let l1, l2, r1, r2;
+    sumEl = smallArr.length + bigArr.length;
+    let searching = true;
+    let breakPointIdx = math.floor(smallArr.length / 2);
+
+    let counter = 0
+
+    while(searching){
+        // console.log("current BPI is: ", breakPointIdx)
+        l1 = smallArr[breakPointIdx - 1];
+        r1 = smallArr[breakPointIdx];
+        let rBreakPointIdx = math.floor(sumEl / 2) - breakPointIdx - 1
+        l2 = bigArr[rBreakPointIdx ]
+        r2 = bigArr[rBreakPointIdx + 1]
+        // console.log(" before passing it to checkMed, l1, l2, r1, r2: ", l1, l2, r1, r2)
+        // console.log("before passing it in, breakpointidx is: , l1 is ", breakPointIdx, l1)
+        // console.log("smallArr[2] is ",  smallArr[2])
+        // console.log("smallArr[3] is ",  smallArr[3])
+
+        if (!(r1 === parseInt(r1))) r1 = Infinity
+        if (!(r2 === parseInt(r2))) r2 = Infinity
+        if (!(l1 === parseInt(l1))) l1 = -Infinity
+        if (!(l2 === parseInt(l2))) l2 = -Infinity
+
+        let result = checkMedConditions(l1, l2, r1, r2);
+        if (result === true){
+            searching = false;
+        } else if (result === "goLeft") {
+            // console.log("going left and decrementing: ", breakPointIdx)
+            breakPointIdx -= 1;
+            // console.log("BPI is now: ", breakPointIdx)
+        } else if (result === "goRight"){
+            // console.log("going right and incrementing BPI")
+            breakPointIdx +=1;
+        } 
+        // counter +=1
+        // if(counter === 5) return 
+    }
+    let answer = (math.max(l1, l2) + math.min(r1, r2)) / 2;
+    debugger
+    if (sumEl % 2 === 1 ) answer = math.min(r1, r2);
+    console.log("the ansewr is!: ", answer)
+    return answer
+
+}
+// medianOfTwoArray([3, 5, 6, 9], [1, 2, 3, 4, 7, 20]) 
+// medianOfTwoArray([1, 2, 3], [9, 12, 13, 14, 15, 16, 17])
+// medianOfTwoArray([1, 2], [3,4])
+
+// medianOfTwoArray([1, 2, 5, 222], [9, 12, 13])
+// 1 2 3 4 5 5 6 7 9, 20
+            
+
+
+// my heap implimentation
+class BinaryMinHeap{
+    constructor(){
+        this.store = []
+        this.push = this.push.bind(this)
+        this.pop = this.pop.bind(this)
+        this.peek = this.pop.bind(this)
+    }
+    push(val){
+        if (this.store.length === 0){ 
+            this.store.push(val);
+            return}
+        this.store.push(val);
+        this.heapifyUp();
+
+    }
+    pop(){   
+        let first = 0;
+        let last = this.store.length - 1
+        // [this.store[first], this.store[last] ] = [this.store[last], this.store[first]]
+        // console.log(this.store)
+        let tempStore = this.store[first]
+        this.store[first] = this.store[last]
+        this.store[last] = tempStore
+        let popped =  this.store.pop()
+        this.heapifyDown()
+        return popped
+
+     }
+    peek(){ 
+        return this.store[0]
+       }
+
+    heapifyUp(){
+        let idx = this.store.length - 1;
+        let parentIdx = math.floor((idx - 1)/2);
+        while (true){
+            if (this.store[parentIdx] > this.store[idx]){
+                [this.store[parentIdx], this.store[idx]] = [this.store[idx], this.store[parentIdx]];
+                idx = parentIdx;
+                parentIdx = math.floor((idx - 1) / 2);
+            } else break;
+        }
+    }
+
+    heapifyDown(){
+        let idx = 0
+        while (true){
+            let maxChildIdx
+            if (this.store[(idx*2) + 1] > this.store[(idx*2 + 2)]) {
+                maxChildIdx = (idx*2) + 2
+            } else{
+                maxChildIdx = (idx*2) + 1
+            }
+            if (this.store[idx] > this.store[maxChildIdx]){
+                [this.store[idx], this.store[maxChildIdx]] = [ this.store[maxChildIdx], this.store[idx]]
+                idx = maxChildIdx
+            } else break
+        }
+    }
+
+}
+
+console.log("heaps below")
+let myHeap = new BinaryMinHeap
+myHeap.push(5)
+// console.log("the store is: ", myHeap.store)
+myHeap.push(2)
+// console.log("the store is: ", myHeap.store)
+myHeap.push(10)
+// console.log("the store is: ", myHeap.store)
+myHeap.push(5)
+// console.log("the store is: ", myHeap.store)
+// console.log(myHeap.store)
+// console.log("popped: ", myHeap.pop())
+myHeap.push(22)
+// myHeap.push(17)
+console.log("starting heap is: ", myHeap.store)
+// console.log("resulting in: ", myHeap.store)
+myHeap.pop()
+console.log("resulting in (after a pop): ", myHeap.store)
+
+
+
+
+        //           2
+        //     5           10
+        // 5      22
+
+
+
+        //         22
+        //     5  10
+        // 5
+
+        //         5
+        //     22  10
+        // 5
