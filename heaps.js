@@ -402,16 +402,17 @@ class BinaryMinHeap{
     }
     pop(){   
         let first = 0;
-        let last = this.store.length - 1
-        // [this.store[first], this.store[last] ] = [this.store[last], this.store[first]]
-        // console.log(this.store)
-        let tempStore = this.store[first]
-        this.store[first] = this.store[last]
-        this.store[last] = tempStore
+        let last = this.store.length - 1;
+        [this.store[first], this.store[last] ] = [this.store[last], this.store[first]];
+        console.log(this.store);
+
+        // let tempStore = this.store[first]
+        // this.store[first] = this.store[last]
+        // this.store[last] = tempStore
+
         let popped =  this.store.pop()
         this.heapifyDown()
         return popped
-
      }
     peek(){ 
         return this.store[0]
@@ -447,38 +448,105 @@ class BinaryMinHeap{
 
 }
 
-console.log("heaps below")
-let myHeap = new BinaryMinHeap
-myHeap.push(5)
-// console.log("the store is: ", myHeap.store)
-myHeap.push(2)
-// console.log("the store is: ", myHeap.store)
-myHeap.push(10)
-// console.log("the store is: ", myHeap.store)
-myHeap.push(5)
-// console.log("the store is: ", myHeap.store)
-// console.log(myHeap.store)
-// console.log("popped: ", myHeap.pop())
-myHeap.push(22)
-// myHeap.push(17)
-console.log("starting heap is: ", myHeap.store)
-// console.log("resulting in: ", myHeap.store)
-myHeap.pop()
-console.log("resulting in (after a pop): ", myHeap.store)
+
+// console.log("heaps below")
+// let myHeap = new BinaryMinHeap
+// myHeap.push(5)
+// // console.log("the store is: ", myHeap.store)
+// myHeap.push(2)
+// // console.log("the store is: ", myHeap.store)
+// myHeap.push(10)
+// // console.log("the store is: ", myHeap.store)
+// myHeap.push(5)
+// // console.log("the store is: ", myHeap.store)
+// // console.log(myHeap.store)
+// // console.log("popped: ", myHeap.pop())
+// myHeap.push(22)
+// // myHeap.push(17)
+// console.log("starting heap is: ", myHeap.store)
+// // console.log("resulting in: ", myHeap.store)
+// myHeap.pop()
+// console.log("resulting in (after a pop): ", myHeap.store)
 
 
 
+class BinaryMaxHeap {
+    constructor() {
+        this.store = []
+        this.push = this.push.bind(this)
+        this.pop = this.pop.bind(this)
+        this.peek = this.pop.bind(this)
+    }
+    push(val) {
+        if (this.store.length === 0) {
+            this.store.push(val);
+            return
+        }
+        this.store.push(val);
+        this.heapifyUp();
 
-        //           2
-        //     5           10
-        // 5      22
+    }
+    pop() {
+        let first = 0;
+        let last = this.store.length - 1
+        // [this.store[first], this.store[last] ] = [this.store[last], this.store[first]]
+        // console.log(this.store)
+        let tempStore = this.store[first]
+        this.store[first] = this.store[last]
+        this.store[last] = tempStore
+        let popped = this.store.pop()
+        this.heapifyDown()
+        return popped
 
+    }
+    peek() {
+        return this.store[0]
+    }
 
+    heapifyUp() {
+        let idx = this.store.length - 1;
+        let parentIdx = math.floor((idx - 1) / 2);
+        while (true) {
+            if (this.store[parentIdx] <  this.store[idx]) {
+                [this.store[parentIdx], this.store[idx]] = [this.store[idx], this.store[parentIdx]];
+                idx = parentIdx;
+                parentIdx = math.floor((idx - 1) / 2);
+            } else break;
+        }
+    }
 
-        //         22
-        //     5  10
-        // 5
+    heapifyDown() {
+        let idx = 0
+        while (true) {
+            let minChildIdx
+            console.log("in the heapDown")
+            console.log(this.store)
+            if ((this.store[(idx * 2) + 2] > this.store[(idx * 2 + 1)])) {
+                minChildIdx = (idx * 2) + 2
+            } else {
+                minChildIdx = (idx * 2) + 1
+            }
+            console.log("idx, maxChildIDx: ", idx, minChildIdx )
+            if (this.store[idx] < this.store[minChildIdx]) {
+                console.log("yep, its more...");
+                [this.store[idx], this.store[minChildIdx]] = [this.store[minChildIdx], this.store[idx]]
+                idx = minChildIdx
+            } else break
+        }
+    }
 
-        //         5
-        //     22  10
-        // 5
+}
+
+let myBigHeap = new BinaryMaxHeap();
+myBigHeap.push(1);
+myBigHeap.push(10,);
+myBigHeap.push(25,);
+myBigHeap.push(23);
+// myBigHeap.push([1, 1])
+myBigHeap.push(19);
+myBigHeap.push(99);
+
+console.log(myBigHeap.store);
+console.log("popping");
+myBigHeap.pop();
+console.log(myBigHeap.store);
