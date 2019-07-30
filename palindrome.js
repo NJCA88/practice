@@ -84,5 +84,55 @@ var longestCommonPrefix = function (strs) {
     return string
 };
 
-let answer = longestCommonPrefix(['catsinpants', 'cat', 'casherine'])
-console.log('answer is: ', answer)
+// let answer = longestCommonPrefix(['catsinpants', 'cat', 'casherine'])
+// console.log('answer is: ', answer)
+
+var convert = function (s, numRows) {
+    // creates the container, currently too wide
+    if (numRows === 1) {
+        return s
+    }
+    let container = new Array(numRows)
+    for (let i = 0; i < numRows; i++) {
+        container[i] = new Array(Math.floor(s.length / numRows))
+    }
+    let letters = s.split("")
+    let dir = 'down'
+    let curX = 0
+    let curY = 0
+    while (letters.length > 0) {
+        // logic is add letter, then move pos, then             update dir
+        if (dir === 'down') {
+            // addLetterDown
+            container[curY][curX] = letters.shift()
+            curY += 1 // cur moved
+            if (curY + 1 >= numRows) {
+                dir = 'up'
+            }
+        } else {
+            //add letter up
+            container[curY][curX] = letters.shift()
+            curY -= 1
+            curX += 1
+            if (curY === 0) {
+                dir = 'down'
+            }
+        }
+    }
+    // console.log('final container is: ')
+    // console.log(container)
+
+    let answer = "";
+    for (let row = 0; row < numRows; row++) {
+        for (let idx = 0; idx < s.length; idx++) {
+            // do thing
+            if (container[row][idx]) {
+                answer = answer + container[row][idx]
+            }
+        }
+    }
+    return answer
+};
+// let convertedAnswer = convert('PAYPALISHIRING', 3);
+let convertedAnswer = convert('AB', 1);
+// console.log(convertedAnswer)
