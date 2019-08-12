@@ -106,7 +106,9 @@ var findDupes = function (nums) {
 
 
 /* this solution basically is using pos vs neg as a flag, to determine whether something has been seen
- so in [1, 2, 2], after we have visited 
+ so in [1, 4, 2, 3], after we have visited  the 2nd element, the array looks like [-1, 4, 2, -3]
+ it negativizes the element at that index, so mark we've seen it before, then in checking it, we start by taking the abs
+ value, and then looking to see if the element at that index is pos or neg
 */
 
 var acquireDupes = function(nums) {

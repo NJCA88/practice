@@ -36,4 +36,27 @@ const subSets = function(arr){
     return answer
 }
 let arr = [1, 2]
-console.log(subSets(arr))
+// console.log(subSets(arr))
+var merge = function(left, right){
+    let answer = []
+    while (left.length > 0 && right.length > 0){
+        if (left[0] < right[0]){
+            answer.push(left.shift())
+        } else{
+            answer.push(right.shift())
+        }
+    }
+    return answer.concat(left).concat(right)
+}
+
+var mergeSort = function(arr){
+    if (arr.length < 2) return arr
+    let left, right
+    left = arr.slice(0, Math.floor(arr.length /2))
+    right = arr.slice(Math.floor(arr.length/2))
+    left = mergeSort(left)
+    right = mergeSort(right)
+    return merge(left, right)
+}
+
+console.log(mergeSort([5, 1, 3, 7, -5, 15, 2]))
