@@ -3,7 +3,7 @@ def braces(values)
     values.each do |input|
         answer.push(test_braces(input))
     end
-    return answer
+    return answer.length
 end
 
 def test_braces(word)
