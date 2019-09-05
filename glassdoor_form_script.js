@@ -1,0 +1,9 @@
+let el = document.getElementById('job_application_disability_status')
+el.value = 2
+let vet = document.getElementById('job_application_veteran_status');
+vet.value = 1
+let gender = document.getElementById('job_application_gender')
+gender.value = 1
+let hispanic = document.getElementById('job_application_hispanic_ethnicity')
+let race = document.getElementById('job_application_race')
+race.value = 5
