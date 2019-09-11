@@ -19,6 +19,9 @@ linked[0].value = 'https://www.linkedin.com/in/chris-atwood-b07640160/';
 let git = document.getElementsByName('urls[GitHub]');
 git[0].value = 'https://github.com/NJCA88';
 
+let portfolio = document.getElementsByName('urls[Portfolio]');
+portfolio[0].value = 'https://fervent-chandrasekhar-26dff0.netlify.com/';
+
 
 let gen = document.getElementsByName('eeo[gender]');
 gen[0].value = 'Male'

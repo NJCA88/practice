@@ -29,7 +29,7 @@ def addStrings(string1, string2)
     answer = [value, dec].join('.')
     p "answer is: ", answer
     
-    return
+    return answer
 
 
 end
